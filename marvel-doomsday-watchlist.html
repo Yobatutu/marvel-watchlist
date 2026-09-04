@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小李的复联5加载进度</title>
+  <style>
+    :root { --bg:#f4f1ec; --paper:#fffdf9; --ink:#1c1c1c; --muted:#716e68; --line:#ded9d0; --red:#c83d35; --red-dark:#a92e28; --gold:#b78232; --shadow:0 18px 50px rgba(48,36,23,.09); }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 88% 4%,rgba(200,61,53,.08),transparent 25rem),linear-gradient(135deg,#f8f6f2 0%,var(--bg) 100%); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; line-height:1.55; }
+    .shell { width:min(980px,calc(100% - 32px)); margin:0 auto; padding:42px 0 72px; }
+    .hero { position:relative; overflow:hidden; padding:38px 38px 34px; border-radius:26px; color:#fff9f0; background:linear-gradient(120deg,#1b1c20 0%,#2e3037 64%,#44221f 100%); box-shadow:var(--shadow); }
+    .hero::after { content:""; position:absolute; width:280px; height:280px; right:-70px; top:-90px; border:2px solid rgba(255,255,255,.13); border-radius:50%; box-shadow:0 0 0 22px rgba(255,255,255,.035),0 0 0 44px rgba(255,255,255,.03); transform:rotate(18deg); }
+    .eyebrow { position:relative; z-index:1; margin:0 0 10px; color:#efb7a5; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
+    h1 { position:relative; z-index:1; max-width:670px; margin:0; font-size:clamp(30px,5vw,54px); line-height:1.08; letter-spacing:-.04em; }
+    .hero p { position:relative; z-index:1; max-width:630px; margin:18px 0 0; color:#d8d5d0; font-size:15px; }
+    .toolbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:20px 0 16px; padding:15px 18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,253,249,.82); box-shadow:0 8px 24px rgba(48,36,23,.04); }
+    .progress-wrap { flex:1; min-width:180px; }
+    .progress-label { display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:var(--muted); }
+    .progress-label strong { color:var(--ink); }
+    .progress-track { height:9px; overflow:hidden; border-radius:99px; background:#e8e3db; }
+    .progress-bar { width:0%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--red),#df775a); transition:width .25s ease; }
+    button { border:0; border-radius:10px; padding:10px 13px; color:var(--red-dark); background:#f8e8e4; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+    button:hover { background:#f2d6d0; }
+    button:focus-visible,input:focus-visible { outline:3px solid rgba(200,61,53,.3); outline-offset:2px; }
+    .legend { display:flex; flex-wrap:wrap; gap:9px 14px; margin:0 0 22px; color:var(--muted); font-size:12px; }
+    .legend-item { display:inline-flex; align-items:center; gap:6px; }
+    .dot { width:8px; height:8px; border-radius:50%; }
+    .dot.must { background:var(--red); } .dot.recommended { background:var(--gold); } .dot.optional { background:#9a958c; }
+    .section { margin-top:28px; }
+    .section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 2px 10px; }
+    .section-heading h2 { margin:0; font-size:20px; letter-spacing:-.02em; }
+    .section-heading span { color:var(--muted); font-size:12px; }
+    .list { overflow:hidden; border:1px solid var(--line); border-radius:17px; background:var(--paper); box-shadow:0 9px 24px rgba(48,36,23,.035); }
+    .item { display:grid; grid-template-columns:30px 1fr auto; gap:11px; align-items:start; padding:15px 17px; border-bottom:1px solid #ece8e1; transition:background .18s ease; }
+    .item:last-child { border-bottom:0; } .item:hover { background:#fff8f2; } .item.done { background:#fafaf7; }
+    .item.done .title { color:#8b8983; text-decoration:line-through; text-decoration-thickness:1px; } .item.done .note { color:#aaa69e; }
+    .check { width:21px; height:21px; margin-top:2px; accent-color:var(--red); cursor:pointer; }
+    .title-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; } .title { font-weight:800; font-size:15px; }
+    .type { padding:2px 7px; border-radius:5px; color:#777269; background:#efebe5; font-size:10px; font-weight:800; letter-spacing:.04em; }
+    .note { margin-top:4px; color:var(--muted); font-size:12px; } .priority { align-self:center; white-space:nowrap; padding:5px 8px; border-radius:7px; font-size:11px; font-weight:800; }
+    .priority.must { color:#a52e29; background:#fae5e1; } .priority.recommended { color:#8d641d; background:#f8edda; } .priority.optional { color:#777269; background:#eeeae4; }
+    .target { margin-top:26px; padding:16px 18px; border:1px dashed #d7ad9f; border-radius:15px; background:rgba(250,231,225,.62); } .target strong { color:var(--red-dark); } .target p { margin:3px 0 0; color:#6c504b; font-size:13px; }
+    .footer { margin-top:30px; color:#8a857b; text-align:center; font-size:12px; }
+    @media (max-width:620px) { .shell{width:min(100% - 20px,980px);padding-top:20px;} .hero{padding:28px 24px;border-radius:21px;} .toolbar{align-items:stretch;flex-direction:column;} .item{grid-template-columns:28px 1fr;padding:14px 13px;} .priority{grid-column:2;justify-self:start;margin-top:-4px;} .section-heading h2{font-size:18px;} }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero"><p class="eyebrow">Marvel · Viewing checklist</p><h1>小李的复联5加载进度</h1><p>按 MCU 上映顺序整理的个人观看清单。勾选状态会自动保存在当前浏览器中，下次打开还能继续。</p></header>
+    <section class="toolbar" aria-label="观看进度"><div class="progress-wrap"><div class="progress-label"><span>观看进度</span><strong id="progressText">0 / 46</strong></div><div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div></div><button id="resetButton" type="button">清空勾选</button></section>
+    <div class="legend" aria-label="优先级说明"><span class="legend-item"><i class="dot must"></i>必看</span><span class="legend-item"><i class="dot recommended"></i>建议看</span><span class="legend-item"><i class="dot optional"></i>可选</span></div>
+    <div id="content"></div>
+    <aside class="target"><strong>最终目标：★★★★★ 《复仇者联盟5：毁灭之日》</strong><p>官方信息可能继续更新；如果上映前新增关联作品，按新作的角色和剧情关系补入即可。</p></aside>
+    <p class="footer">勾选记录只保存在这台设备的这个浏览器里。</p>
+  </main>
+  <script>
+    (() => {
+      const sections = [
+        { title:'第一阶段 · 复仇者联盟成立', items:[
+          ['钢铁侠','必看','电影','MCU 起点；Tony Stark、复仇者计划和世界观从这里开始。'],['无敌浩克','可选','电影','补充 Hulk；与后续 MCU 有关联，但不是本次主线重点。'],['钢铁侠2','建议看','电影','引入黑寡妇，补充 Tony、神盾局和复仇者计划。'],['雷神','建议看','电影','了解 Thor、Loki 和阿斯加德。'],['美国队长：复仇者先锋','建议看','电影','了解 Steve Rogers、Bucky 和宇宙魔方。'],['复仇者联盟','必看','电影','第一代复仇者正式集结，后续大型事件的基础。'] ] },
+        { title:'第二阶段 · 复仇者扩张', items:[
+          ['钢铁侠3','可选','电影','补充《复仇者联盟》之后 Tony 的心理状态。'],['雷神2：黑暗世界','可选','电影','补充以太粒子，也就是现实宝石；剧情本身不是重点。'],['美国队长2：冬日战士','必看','电影','Bucky、Sam Wilson、神盾局和现代 MCU 格局的重要起点。'],['银河护卫队','建议看','电影','补充宇宙阵营、无限宝石和 Guardians。'],['复仇者联盟2：奥创纪元','必看','电影','引入 Wanda、Vision，为《内战》和后续关系埋下伏笔。'],['蚁人','可选','电影','了解 Scott Lang 和量子领域；《终局之战》前最好看过。'] ] },
+        { title:'第三阶段 · 无限战争', items:[
+          ['美国队长3：内战','必看','电影','复仇者分裂、Bucky 和新老英雄关系的核心前置。'],['奇异博士','建议看','电影','了解 Doctor Strange、时间宝石和魔法体系。'],['银河护卫队2','可选','电影','补充 Guardians 的人物关系。'],['蜘蛛侠：英雄归来','可选','电影','补充 Peter Parker 和 Tony Stark 的关系。'],['雷神3：诸神黄昏','建议看','电影','了解 Thor、Loki、Hulk 在《无限战争》前的状态。'],['黑豹','建议看','电影','了解 Wakanda、T’Challa 和 Vibranium。'],['复仇者联盟3：无限战争','必看','电影','灭霸、无限宝石和宇宙级冲突的核心电影。'],['蚁人与黄蜂女','建议看','电影','量子领域对《终局之战》非常重要。'],['惊奇队长','可选','电影','了解 Captain Marvel；补上她在《终局之战》中的背景。'],['复仇者联盟4：终局之战','必看','电影','第一代 MCU 主线的阶段性终点，也是后续主线基础。'],['蜘蛛侠：英雄远征','可选','电影','补充《终局之战》后的世界，以及 Peter 对 Tony 的情感延续。'] ] },
+        { title:'第四阶段 · 多元宇宙开始', items:[
+          ['黑寡妇','建议看','电影','引入 Yelena，也是《雷霆特攻队*》的重要前置。'],['尚气与十环传奇','可选','电影','了解 Shang-Chi 和十环。'],['永恒族','可选','电影','拓展 MCU 宇宙历史，目前不是《毁灭之日》的核心前置。'],['蜘蛛侠：英雄无归','建议看','电影','多元宇宙正式大规模连接不同版本的角色。'],['奇异博士2：疯狂多元宇宙','建议看','电影','补充变体、平行宇宙和宇宙碰撞概念。'],['雷神4：爱与雷霆','可选','电影','主要补充 Thor 和 Guardians 的近况。'],['黑豹2：瓦坎达万岁','建议看','电影','了解 Shuri、Wakanda 和 Namor。'] ] },
+        { title:'第五阶段 · 新一代英雄集结', items:[
+          ['蚁人与黄蜂女：量子狂潮','可选','电影','主要涉及 Kang 和量子领域；对本片不是绝对必需。'],['银河护卫队3','可选','电影','Guardians 的阶段性结局。'],['惊奇队长2','可选','电影','补充 Captain Marvel、Monica Rambeau 和 Kamala Khan。'],['死侍与金刚狼','必看','电影','连接 MCU、Fox 的 X-Men 电影宇宙和 Wolverine。'],['美国队长4：勇敢新世界','必看','电影','了解 Sam Wilson 作为新任美国队长，以及 Ross 总统的新状态。'],['雷霆特攻队*','必看','电影','了解 Yelena、Bucky、John Walker、Ghost、Red Guardian 等成员。'],['神奇四侠：第一步','必看','电影','新版神奇四侠的重要起点，也是本片前最直接的阵营前置。'] ] },
+        { title:'X-Men 支线 · 看懂变种人回归', items:[
+          ['X战警','建议看','电影','了解老版 X-Men 角色的最初设定和关系。'],['X战警2','建议看','电影','进一步补充 Professor X、Magneto 和变种人阵营。'],['X战警：逆转未来','建议看','电影','理解 X-Men 时间线、角色变体和不同版本设定。'],['金刚狼3：殊死一战','可选','电影','关注 Wolverine 时补看；不是主线必需。'] ] },
+        { title:'剧集补充 · 想看得更完整再看', items:[
+          ['洛基 第一季','建议看','剧集','多元宇宙、时间线和变体概念的核心来源。'],['洛基 第二季','建议看','剧集','进一步理解时间线运转和多元宇宙危机。'],['猎鹰与冬兵','建议看','剧集','补充 Sam Wilson 如何接任美国队长，以及 Bucky 的状态。'],['旺达幻视','建议看','剧集','补充 Wanda 和 Vision；看《奇异博士2》时尤其有帮助。'],['鹰眼','可选','剧集','补充 Yelena，完善《黑寡妇》和《雷霆特攻队*》的人物关系。'] ] }
+      ];
+      const storageKey = 'marvel-doomsday-watchlist-v1';
+      const content = document.getElementById('content'); const progressText = document.getElementById('progressText'); const progressBar = document.getElementById('progressBar');
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); const allItems = [];
+      const priorityClass = priority => ({'必看':'must','建议看':'recommended','可选':'optional'}[priority]);
+      sections.forEach((section, sectionIndex) => {
+        const sectionEl = document.createElement('section'); sectionEl.className = 'section';
+        const heading = document.createElement('div'); heading.className = 'section-heading'; heading.innerHTML = '<h2></h2><span></span>'; heading.querySelector('h2').textContent = section.title; heading.querySelector('span').textContent = section.items.length + ' 项'; sectionEl.appendChild(heading);
+        const list = document.createElement('div'); list.className = 'list';
+        section.items.forEach((item, itemIndex) => {
+          const title = item[0], priority = item[1], type = item[2], note = item[3], id = sectionIndex + '-' + itemIndex; allItems.push(id);
+          const row = document.createElement('label'); row.className = 'item'; row.dataset.id = id;
+          row.innerHTML = '<input class="check" type="checkbox" aria-label="标记已看" data-id="' + id + '"><span><span class="title-row"><span class="title"></span><span class="type"></span></span><span class="note"></span></span><span class="priority ' + priorityClass(priority) + '"></span>';
+          row.querySelector('.title').textContent = title; row.querySelector('.type').textContent = type; row.querySelector('.note').textContent = note; row.querySelector('.priority').textContent = priority;
+          const checkbox = row.querySelector('input'); checkbox.checked = Boolean(saved[id]); row.classList.toggle('done', checkbox.checked);
+          checkbox.addEventListener('change', () => { saved[id] = checkbox.checked; row.classList.toggle('done', checkbox.checked); localStorage.setItem(storageKey, JSON.stringify(saved)); updateProgress(); });
+          list.appendChild(row);
+        });
+        sectionEl.appendChild(list); content.appendChild(sectionEl);
+      });
+      function updateProgress() { const done = allItems.filter(id => saved[id]).length; const percent = allItems.length ? done / allItems.length * 100 : 0; progressText.textContent = done + ' / ' + allItems.length; progressBar.style.width = percent + '%'; }
+      document.getElementById('resetButton').addEventListener('click', () => { if (!confirm('确定要清空全部观看记录吗？')) return; allItems.forEach(id => delete saved[id]); localStorage.setItem(storageKey, JSON.stringify(saved)); document.querySelectorAll('.check').forEach(input => { input.checked = false; input.closest('.item').classList.remove('done'); }); updateProgress(); });
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
