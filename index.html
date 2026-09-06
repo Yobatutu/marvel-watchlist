@@ -5,49 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>小李的复联5加载进度</title>
   <style>
-    :root { --bg:#f4f1ec; --paper:#fffdf9; --ink:#1c1c1c; --muted:#716e68; --line:#ded9d0; --red:#c83d35; --red-dark:#a92e28; --gold:#b78232; --shadow:0 18px 50px rgba(48,36,23,.09); }
+    :root { --paper:#f4f8fc; --paper-blue:#e8f2fb; --panel:#ffffff; --panel-2:#f7fbff; --line:#c9dceb; --ink:#172a42; --muted:#61758b; --navy:#17365c; --blue:#4b8dcc; --red:#cf3f43; --red-hot:#ff4f87; --gold:#e4a63d; --cyan:#54e8ff; --green:#62a878; --shadow:0 18px 42px rgba(35,77,112,.16); }
     * { box-sizing:border-box; }
-    body { margin:0; color:var(--ink); background:radial-gradient(circle at 88% 4%,rgba(200,61,53,.08),transparent 25rem),linear-gradient(135deg,#f8f6f2 0%,var(--bg) 100%); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; line-height:1.55; }
-    .shell { width:min(980px,calc(100% - 32px)); margin:0 auto; padding:42px 0 72px; }
-    .hero { position:relative; overflow:hidden; padding:38px 38px 34px; border-radius:26px; color:#fff9f0; background:linear-gradient(120deg,#1b1c20 0%,#2e3037 64%,#44221f 100%); box-shadow:var(--shadow); }
-    .hero::after { content:""; position:absolute; width:280px; height:280px; right:-70px; top:-90px; border:2px solid rgba(255,255,255,.13); border-radius:50%; box-shadow:0 0 0 22px rgba(255,255,255,.035),0 0 0 44px rgba(255,255,255,.03); transform:rotate(18deg); }
-    .eyebrow { position:relative; z-index:1; margin:0 0 10px; color:#efb7a5; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
-    h1 { position:relative; z-index:1; max-width:670px; margin:0; font-size:clamp(30px,5vw,54px); line-height:1.08; letter-spacing:-.04em; }
-    .hero p { position:relative; z-index:1; max-width:630px; margin:18px 0 0; color:#d8d5d0; font-size:15px; }
-    .toolbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:20px 0 16px; padding:15px 18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,253,249,.82); box-shadow:0 8px 24px rgba(48,36,23,.04); }
+    body { margin:0; color:var(--ink); background:linear-gradient(180deg,#c6dced 0%,#dceaf5 19%,#edf0f5 40%,#f5f1f2 62%,#fff9f1 100%); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; line-height:1.55; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.42; background-image:radial-gradient(#6f9fc4 .55px,transparent .55px); background-size:22px 22px; mask-image:linear-gradient(to bottom,black,transparent 76%); }
+    .shell { position:relative; z-index:1; width:min(1000px,calc(100% - 32px)); margin:0 auto; padding:0 0 72px; }
+    .hero { position:relative; overflow:visible; width:100vw; margin-left:calc(50% - 50vw); aspect-ratio:4096 / 1346; min-height:0; border:0; color:#fff; background:url("team-illustration-wide.jpg") center / cover no-repeat; box-shadow:none; }
+    .hero::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg,rgba(8,35,66,.5) 0%,rgba(12,55,92,.22) 28%,rgba(12,55,92,.04) 52%,transparent 72%),linear-gradient(180deg,rgba(4,27,52,.12),transparent 48%),linear-gradient(180deg,transparent 76%,rgba(174,207,230,.04) 88%,rgba(185,211,231,.12) 100%); }
+    .hero::after { content:""; position:absolute; left:-8%; right:-8%; top:100%; height:220px; z-index:1; pointer-events:none; background:radial-gradient(ellipse at 20% 24%,rgba(112,193,255,.18),transparent 62%),radial-gradient(ellipse at 78% 25%,rgba(255,145,197,.14),transparent 60%),linear-gradient(180deg,rgba(193,218,235,.34) 0%,rgba(204,222,236,.2) 24%,rgba(224,226,235,.08) 58%,transparent 100%); filter:blur(8px); opacity:.84; }
+    .hero > * { position:relative; z-index:1; }
+    .hero-bottom-fade { position:absolute !important; left:-1%; top:calc(100% - 26px); z-index:1 !important; width:102%; height:126px; pointer-events:none; background:url("team-illustration-wide.jpg") center bottom / cover no-repeat; opacity:.62; filter:blur(4px) saturate(.92); -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.8) 0%,rgba(0,0,0,.55) 22%,rgba(0,0,0,.2) 58%,transparent 100%); mask-image:linear-gradient(to bottom,rgba(0,0,0,.8) 0%,rgba(0,0,0,.55) 22%,rgba(0,0,0,.2) 58%,transparent 100%); }
+    .hero-reflection { display:block; position:absolute !important; left:0; top:calc(100% - 34px); z-index:0 !important; width:100%; height:auto; pointer-events:none; opacity:.70; filter:blur(1px) saturate(.88); mix-blend-mode:multiply; transform:scaleY(-1); transform-origin:center center; -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.05) 8%,rgba(0,0,0,.18) 20%,rgba(0,0,0,.2) 36%,rgba(0,0,0,.12) 55%,rgba(0,0,0,.035) 76%,transparent 100%); mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.05) 8%,rgba(0,0,0,.18) 20%,rgba(0,0,0,.2) 36%,rgba(0,0,0,.12) 55%,rgba(0,0,0,.035) 76%,transparent 100%); }
+    .ambient-gallery { position:absolute !important; left:50%; top:calc(100% + 100vw - 34px); z-index:0 !important; width:100vw; height:0; transform:translateX(-50%); pointer-events:none; overflow:hidden; }
+    .ambient-panel { width:100vw; height:100vw; background:url("team-illustration-hd.jpg") center / 100% 100% no-repeat; opacity:.70; filter:blur(1px) saturate(.88); mix-blend-mode:multiply; -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.06) 7%,rgba(0,0,0,.2) 19%,rgba(0,0,0,.18) 42%,rgba(0,0,0,.1) 68%,transparent 100%); mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.06) 7%,rgba(0,0,0,.2) 19%,rgba(0,0,0,.18) 42%,rgba(0,0,0,.1) 68%,transparent 100%); }
+    .ambient-panel.is-flipped { transform:scaleY(-1); }
+    .hero-copy { display:block !important; position:absolute; inset:0; z-index:4 !important; width:100%; height:100%; margin:0; padding:0; border:0; background:transparent; box-shadow:none; }
+    .title-overlay { display:block !important; position:absolute; left:3.2%; top:50%; z-index:5; width:min(470px,34%); height:auto; transform:translateY(-50%); object-fit:contain; opacity:1; filter:drop-shadow(0 4px 12px rgba(0,22,58,.28)); }
+    .eyebrow { display:none; align-items:center; gap:8px; margin:0 0 13px; color:#e7f7ff; font-size:11px; font-weight:900; letter-spacing:.18em; text-transform:uppercase; text-shadow:0 2px 10px rgba(0,25,50,.55); }
+    .eyebrow::before { content:""; width:9px; height:9px; border-radius:50%; background:var(--red-hot); box-shadow:0 0 0 4px rgba(237,102,84,.16),0 0 14px rgba(237,102,84,.42); }
+    h1 { display:none; flex-direction:column; align-items:flex-start; max-width:720px; margin:0; color:#fff8df; font-family:"Avenir Next Heavy","Arial Black","Heiti SC",sans-serif; font-weight:900; line-height:.95; letter-spacing:.02em; filter:drop-shadow(0 4px 0 rgba(10,40,76,.35)); }
+    h1 span { display:block; paint-order:stroke fill; }
+    h1 .title-small { margin-left:.14em; color:#eaf6ff; font-family:"STKaiti","Kaiti SC","KaiTi","Songti SC",serif; font-size:clamp(21px,3vw,34px); font-weight:700; letter-spacing:.16em; -webkit-text-stroke:1px #17365c; text-shadow:1px 2px 0 rgba(238,83,119,.9); }
+    h1 .title-main { margin:.1em 0 .08em; color:#fff7db; font-size:clamp(48px,7vw,82px); letter-spacing:-.04em; -webkit-text-stroke:clamp(1px,.18vw,2px) #17365c; text-shadow:3px 4px 0 #cf3f43,0 8px 22px rgba(0,26,55,.25); }
+    h1 .title-tail { margin-left:.22em; color:#dcefff; font-family:"STKaiti","Kaiti SC","KaiTi","Songti SC",serif; font-size:clamp(22px,3.3vw,38px); font-weight:700; letter-spacing:.18em; -webkit-text-stroke:1px #17365c; text-shadow:2px 3px 0 rgba(207,63,67,.82); }
+    .hero-copy p:not(.eyebrow) { max-width:430px; margin:16px 0 0; color:#e2f0fb; font-size:14px; text-shadow:0 2px 10px rgba(0,25,50,.55); }
+    .hero-art { display:none; }
+    .hero-art .outline { fill:none; stroke:#6bd4e3; stroke-width:1.5; vector-effect:non-scaling-stroke; }
+    .hero-art .soft { fill:none; stroke:#d84748; stroke-width:1.2; opacity:.65; vector-effect:non-scaling-stroke; }
+    .hero-art .fill { fill:#07101c; stroke:#6bd4e3; stroke-width:1.2; vector-effect:non-scaling-stroke; }
+    .hero::marker { display:none; }
+    .toolbar { position:relative; z-index:3; display:flex; align-items:center; justify-content:space-between; gap:22px; margin:26px 0 14px; padding:18px 20px; border:1px solid rgba(179,208,227,.92); border-radius:16px; background:rgba(255,255,255,.84); box-shadow:0 16px 34px rgba(35,77,112,.16),0 2px 10px rgba(88,174,214,.12); backdrop-filter:blur(8px); }
     .progress-wrap { flex:1; min-width:180px; }
-    .progress-label { display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:var(--muted); }
-    .progress-label strong { color:var(--ink); }
-    .progress-track { height:9px; overflow:hidden; border-radius:99px; background:#e8e3db; }
-    .progress-bar { width:0%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--red),#df775a); transition:width .25s ease; }
-    button { border:0; border-radius:10px; padding:10px 13px; color:var(--red-dark); background:#f8e8e4; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
-    button:hover { background:#f2d6d0; }
-    button:focus-visible,input:focus-visible { outline:3px solid rgba(200,61,53,.3); outline-offset:2px; }
-    .legend { display:flex; flex-wrap:wrap; gap:9px 14px; margin:0 0 22px; color:var(--muted); font-size:12px; }
-    .legend-item { display:inline-flex; align-items:center; gap:6px; }
-    .dot { width:8px; height:8px; border-radius:50%; }
-    .dot.must { background:var(--red); } .dot.recommended { background:var(--gold); } .dot.optional { background:#9a958c; }
-    .section { margin-top:28px; }
-    .section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 2px 10px; }
-    .section-heading h2 { margin:0; font-size:20px; letter-spacing:-.02em; }
-    .section-heading span { color:var(--muted); font-size:12px; }
-    .list { overflow:hidden; border:1px solid var(--line); border-radius:17px; background:var(--paper); box-shadow:0 9px 24px rgba(48,36,23,.035); }
-    .item { display:grid; grid-template-columns:30px 1fr auto; gap:11px; align-items:start; padding:15px 17px; border-bottom:1px solid #ece8e1; transition:background .18s ease; }
-    .item:last-child { border-bottom:0; } .item:hover { background:#fff8f2; } .item.done { background:#fafaf7; }
-    .item.done .title { color:#8b8983; text-decoration:line-through; text-decoration-thickness:1px; } .item.done .note { color:#aaa69e; }
-    .check { width:21px; height:21px; margin-top:2px; accent-color:var(--red); cursor:pointer; }
-    .title-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; } .title { font-weight:800; font-size:15px; }
-    .type { padding:2px 7px; border-radius:5px; color:#777269; background:#efebe5; font-size:10px; font-weight:800; letter-spacing:.04em; }
-    .note { margin-top:4px; color:var(--muted); font-size:12px; } .priority { align-self:center; white-space:nowrap; padding:5px 8px; border-radius:7px; font-size:11px; font-weight:800; }
-    .priority.must { color:#a52e29; background:#fae5e1; } .priority.recommended { color:#8d641d; background:#f8edda; } .priority.optional { color:#777269; background:#eeeae4; }
-    .target { margin-top:26px; padding:16px 18px; border:1px dashed #d7ad9f; border-radius:15px; background:rgba(250,231,225,.62); } .target strong { color:var(--red-dark); } .target p { margin:3px 0 0; color:#6c504b; font-size:13px; }
-    .footer { margin-top:30px; color:#8a857b; text-align:center; font-size:12px; }
-    @media (max-width:620px) { .shell{width:min(100% - 20px,980px);padding-top:20px;} .hero{padding:28px 24px;border-radius:21px;} .toolbar{align-items:stretch;flex-direction:column;} .item{grid-template-columns:28px 1fr;padding:14px 13px;} .priority{grid-column:2;justify-self:start;margin-top:-4px;} .section-heading h2{font-size:18px;} }
+    .progress-label { display:flex; justify-content:space-between; margin-bottom:9px; color:var(--muted); font-size:11px; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+    .progress-label strong { color:var(--navy); font-variant-numeric:tabular-nums; }
+    .progress-track { position:relative; height:16px; overflow:hidden; border:1px solid rgba(118,164,196,.85); border-radius:999px; background:linear-gradient(180deg,#d7e9f7,#f5fbff); background-color:#e8f4fc; background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),rgba(91,143,180,.24) calc(10% - 1px),rgba(91,143,180,.24) 10%); box-shadow:inset 0 2px 5px rgba(44,83,117,.18),0 0 0 3px rgba(177,219,241,.22); }
+    .progress-bar { position:relative; z-index:1; width:0%; height:100%; border-radius:999px; background:linear-gradient(90deg,#f65389 0%,#f66f98 22%,#f58b98 40%,#f7b18c 53%,#ffd978 65%,#fff0ba 74%,#7bdeea 89%,#43aed5 100%); background-size:100% 100%; box-shadow:0 0 12px rgba(245,91,145,.3),0 0 16px rgba(77,218,239,.2); transition:width .25s ease; }
+    .progress-bar::after { content:""; position:absolute; inset:-7px auto -7px -64px; width:58px; transform:skewX(-18deg); border-radius:50%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.56),transparent); filter:blur(7px); animation:progress-glint 3.6s ease-in-out infinite; }
+    @keyframes progress-glint { 0%,30% { left:-64px; opacity:0; } 48% { opacity:.34; } 68%,100% { left:calc(100% + 64px); opacity:0; } }
+    button { border:1px solid rgba(207,63,67,.6); border-radius:999px; padding:10px 15px; color:#a52f35; background:#fff4f0; font:inherit; font-size:12px; font-weight:900; letter-spacing:.06em; cursor:pointer; }
+    button:hover { color:#fff; background:var(--red); box-shadow:0 0 16px rgba(207,63,67,.22); }
+    button:focus-visible,input:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+    .legend { position:relative; z-index:2; display:flex; flex-wrap:wrap; gap:9px 16px; margin:0 0 24px; padding:0 4px; color:var(--muted); font-size:11px; font-weight:800; letter-spacing:.04em; }
+    .legend-item { display:inline-flex; align-items:center; gap:7px; }
+    .dot { width:7px; height:7px; border-radius:50%; box-shadow:0 0 8px currentColor; }
+    .dot.must { color:var(--red-hot); background:currentColor; } .dot.recommended { color:var(--gold); background:currentColor; } .dot.optional { color:#738296; background:currentColor; }
+    .section { position:relative; z-index:2; margin-top:29px; }
+    .section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 3px 10px; }
+    .section-heading h2 { margin:0; color:var(--navy); font-size:19px; letter-spacing:-.02em; }
+    .section-heading h2::before { content:"✦"; margin-right:9px; color:var(--red); font-size:14px; }
+    .section-heading span { color:#7891a7; font-family:monospace; font-size:11px; }
+    .list { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.84); box-shadow:var(--shadow); }
+    .item { display:grid; grid-template-columns:30px 1fr auto; gap:11px; align-items:start; padding:15px 17px; border-bottom:1px solid rgba(201,220,235,.78); transition:background .18s ease,box-shadow .18s ease; }
+    .item:last-child { border-bottom:0; } .item:hover { background:#eef7fd; box-shadow:inset 4px 0 var(--cyan); } .item.done { background:#eef8f1; }
+    .item.done .title { color:#78909f; text-decoration:line-through; text-decoration-thickness:1px; } .item.done .note { color:#7b9b8b; }
+    .check { position:relative; width:20px; height:20px; margin-top:2px; accent-color:var(--red); cursor:pointer; }
+    .title-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; } .title { color:var(--navy); font-weight:900; font-size:15px; }
+    .type { padding:2px 7px; border:1px solid #b8d0e2; border-radius:999px; color:#567895; background:#edf6fc; font-family:monospace; font-size:10px; font-weight:800; letter-spacing:.04em; }
+    .note { margin-top:4px; color:#6e8295; font-size:12px; } .priority { align-self:center; white-space:nowrap; padding:4px 8px; border-radius:999px; font-family:monospace; font-size:10px; font-weight:900; letter-spacing:.05em; }
+    .priority.must { color:#b72d35; border:1px solid rgba(207,63,67,.48); background:#fff0ee; } .priority.recommended { color:#9a691b; border:1px solid rgba(228,166,61,.55); background:#fff8e8; } .priority.optional { color:#61788d; border:1px solid #b7ccdc; background:#f0f6fa; }
+    .target { position:relative; overflow:hidden; margin-top:27px; padding:18px 20px; border:1px solid rgba(207,63,67,.44); border-radius:14px; background:linear-gradient(110deg,#fff1ee,#fff9e8); box-shadow:var(--shadow); }
+    .target::before { content:"FINAL OBJECTIVE"; display:block; margin-bottom:6px; color:#c54b43; font-family:monospace; font-size:10px; letter-spacing:.16em; }
+    .target strong { color:var(--navy); font-size:15px; } .target p { margin:4px 0 0; color:#806f6b; font-size:12px; }
+    .footer { margin-top:30px; color:#71879b; text-align:center; font-family:monospace; font-size:11px; }
+    @media (max-width:620px) { .shell{width:min(100% - 20px,1000px);padding:20px 0 56px;} .hero{aspect-ratio:4096 / 1346;min-height:0;border-radius:18px;background-position:center;} .hero-copy{inset:0 !important;width:100% !important;height:100%;} .title-overlay{left:3%;top:50%;width:min(260px,42%);max-height:100%;transform:translateY(-50%);} .hero-art{display:none;} .hero-reflection{width:100%;opacity:.70;filter:blur(1px) saturate(.9);} .toolbar{align-items:stretch;flex-direction:column;gap:8px;margin:26px 0 20px;padding:15px;} .progress-label{font-size:9px;margin-bottom:5px;} .progress-track{height:11px;} button{align-self:flex-end;padding:6px 10px;font-size:10px;} .item{grid-template-columns:28px 1fr;padding:14px 13px;} .priority{grid-column:2;justify-self:start;margin-top:-4px;} .section-heading h2{font-size:17px;} }
   </style>
 </head>
 <body>
   <main class="shell">
-    <header class="hero"><p class="eyebrow">Marvel · Viewing checklist</p><h1>小李的复联5加载进度</h1><p>按 MCU 上映顺序整理的个人观看清单。勾选状态会自动保存在当前浏览器中，下次打开还能继续。</p></header>
+    <header class="hero">
+      <div class="hero-bottom-fade" aria-hidden="true"></div>
+      <img class="hero-reflection" src="team-illustration-hd.jpg" alt="" aria-hidden="true" />
+      <div class="ambient-gallery" id="ambientGallery" aria-hidden="true"></div>
+      <svg class="hero-art" viewBox="0 0 620 300" aria-hidden="true">
+        <g class="soft" opacity=".55">
+          <circle cx="428" cy="146" r="86"/><circle cx="428" cy="146" r="103"/><path d="M428 31v230M313 146h230"/>
+        </g>
+        <g transform="translate(6 61)">
+          <path class="fill" d="M42 54c-2-25 11-44 35-49 24-5 43 10 45 35l-8 28H49z"/><path class="outline" d="M61 43h32M58 53h38M68 27l10 12 10-12M50 70l-14 42 15 35h55l16-35-15-42"/><circle class="soft" cx="78" cy="91" r="13"/><circle class="soft" cx="78" cy="91" r="5"/>
+        </g>
+        <g transform="translate(135 28)">
+          <circle class="fill" cx="78" cy="82" r="35"/><path class="outline" d="M78 47v70M43 82h70M53 57l50 50M103 57l-50 50"/><circle class="soft" cx="78" cy="82" r="22"/><path class="outline" d="M78 48c14 0 27 6 35 16l-14 13-21-10z"/>
+          <path class="fill" d="M58 120h40l15 70H43z"/><path class="outline" d="M56 135l22 30 22-30M48 149l-25 54M107 149l25 54"/>
+        </g>
+        <g transform="translate(276 15)">
+          <path class="fill" d="M57 72c2-30 22-51 48-51s46 21 48 51l-13 28H70z"/><path class="outline" d="M80 70h50M86 81h38M103 21l-10-16M119 21l10-16M70 100l-21 90M140 100l21 90M70 128l70 0"/><path class="soft" d="M35 116l-34 16 17 20 31-13M160 116l38 16-18 20-32-13"/><path class="outline" d="M30 143h-23v-8h23"/>
+        </g>
+        <g transform="translate(430 52)">
+          <path class="fill" d="M42 59c0-29 16-48 38-48s38 19 38 48l-7 24H49z"/><path class="outline" d="M58 55h44M52 83l-17 45 21 50h48l21-50-17-45M57 110l23 23 23-23"/><circle class="soft" cx="63" cy="67" r="4"/><circle class="soft" cx="97" cy="67" r="4"/>
+        </g>
+      </svg>
+      <section class="hero-copy"><img class="title-overlay" src="title-overlay-green-screen-transparent-with-bar.png?v=1" alt="小李的复联5加载进度标题" /></section>
+    </header>
     <section class="toolbar" aria-label="观看进度"><div class="progress-wrap"><div class="progress-label"><span>观看进度</span><strong id="progressText">0 / 46</strong></div><div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div></div><button id="resetButton" type="button">清空勾选</button></section>
     <div class="legend" aria-label="优先级说明"><span class="legend-item"><i class="dot must"></i>必看</span><span class="legend-item"><i class="dot recommended"></i>建议看</span><span class="legend-item"><i class="dot optional"></i>可选</span></div>
     <div id="content"></div>
@@ -74,6 +122,7 @@
       ];
       const storageKey = 'marvel-doomsday-watchlist-v1';
       const content = document.getElementById('content'); const progressText = document.getElementById('progressText'); const progressBar = document.getElementById('progressBar');
+      const ambientGallery = document.getElementById('ambientGallery');
       const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); const allItems = [];
       const priorityClass = priority => ({'必看':'must','建议看':'recommended','可选':'optional'}[priority]);
       sections.forEach((section, sectionIndex) => {
@@ -92,8 +141,13 @@
         sectionEl.appendChild(list); content.appendChild(sectionEl);
       });
       function updateProgress() { const done = allItems.filter(id => saved[id]).length; const percent = allItems.length ? done / allItems.length * 100 : 0; progressText.textContent = done + ' / ' + allItems.length; progressBar.style.width = percent + '%'; }
+      function layoutAmbientGallery() {
+        const hero = document.querySelector('.hero'); const footer = document.querySelector('.footer'); if (!hero || !footer || !ambientGallery) return;
+        const panelSize = Math.max(window.innerWidth, 1); const galleryTop = hero.getBoundingClientRect().bottom + window.scrollY + panelSize - 34; const pageBottom = footer.getBoundingClientRect().bottom + window.scrollY + 24; const needed = Math.max(0, pageBottom - galleryTop); const count = Math.ceil(needed / panelSize);
+        ambientGallery.style.height = needed + 'px'; ambientGallery.innerHTML = Array.from({length:count}, (_, index) => '<div class="ambient-panel' + (index % 2 ? ' is-flipped' : '') + '"></div>').join('');
+      }
       document.getElementById('resetButton').addEventListener('click', () => { if (!confirm('确定要清空全部观看记录吗？')) return; allItems.forEach(id => delete saved[id]); localStorage.setItem(storageKey, JSON.stringify(saved)); document.querySelectorAll('.check').forEach(input => { input.checked = false; input.closest('.item').classList.remove('done'); }); updateProgress(); });
-      updateProgress();
+      updateProgress(); layoutAmbientGallery(); window.addEventListener('resize', layoutAmbientGallery);
     })();
   </script>
 </body>
